@@ -200,38 +200,40 @@ class CardGeniusBatchRunner:
             clean_options = []
             conversion_rate_strings = []
             
+            # Filter to only Vouchers and Cashback methods, find highest rate
+            voucher_cashback_options = []
             for opt in redemption_options:
-                opt_type = opt.get('type', '').strip()
+                method = opt.get('method', '').strip()
                 conversion_rate = opt.get('conversion_rate', 0)
                 
-                # If type is empty, infer from conversion rate
-                if not opt_type:
-                    if conversion_rate >= 0.6:
-                        opt_type = "Cashback"
-                    elif conversion_rate >= 0.4:
-                        opt_type = "Vouchers"
-                    elif conversion_rate >= 0.2:
-                        opt_type = "Rewards"
-                    else:
-                        opt_type = "Points"
+                # Only include Vouchers and Cashback methods
+                if method in ['Vouchers', 'Cashback'] and conversion_rate > 0:
+                    voucher_cashback_options.append({
+                        'method': method,
+                        'conversion_rate': conversion_rate,
+                        'brand': opt.get('brand', ''),
+                        'description': opt.get('description', '')
+                    })
+            
+            # Find the highest conversion rate among filtered options
+            if voucher_cashback_options:
+                best_option = max(voucher_cashback_options, key=lambda x: x['conversion_rate'])
                 
                 clean_opt = {
-                    'type': opt_type,
-                    'conversion_rate': conversion_rate,
-                    'description': opt.get('description', ''),
-                    'min_amount': opt.get('min_amount', 0),
-                    'max_amount': opt.get('max_amount', 0)
+                    'type': best_option['method'],
+                    'conversion_rate': best_option['conversion_rate'],
+                    'description': best_option['description'],
+                    'brand': best_option['brand'],
+                    'min_amount': 0,
+                    'max_amount': 0
                 }
                 clean_options.append(clean_opt)
                 
-                # Create formatted string for each redemption option
-                description = opt.get('description', '').strip()
-                
-                if conversion_rate > 0:
-                    rate_str = f"{opt_type}: {conversion_rate}"
-                    if description:
-                        rate_str += f" ({description})"
-                    conversion_rate_strings.append(rate_str)
+                # Create formatted string for the best option
+                rate_str = f"{best_option['method']}: {best_option['conversion_rate']}"
+                if best_option['brand']:
+                    rate_str += f" ({best_option['brand']})"
+                conversion_rate_strings.append(rate_str)
             
             result[f"{prefix}redemption_options"] = json.dumps(clean_options, ensure_ascii=False)
             
@@ -297,22 +299,23 @@ class CardGeniusBatchRunner:
             logger.warning(f"No cards returned for user {user_id}")
             return result
         
-        # Sort by net_savings descending (total_savings_yearly - joining_fees + total_extra_benefits)
-        # This ensures cards with negative net savings are ranked lower
-        def calculate_net_savings(card):
-            return (float(str(card.get('total_savings_yearly', 0) or 0)) - 
-                   float(str(card.get('joining_fees', 0) or 0)) + 
-                   float(str(card.get('total_extra_benefits', 0) or 0)))
+        # Filter out cards with null values in key fields
+        valid_cards = []
+        for card in cards:
+            # Check for null values in key fields
+            if (card.get('total_savings_yearly') is not None and 
+                card.get('joining_fees') is not None and 
+                card.get('total_extra_benefits') is not None):
+                valid_cards.append(card)
+            else:
+                logger.warning(f"Skipping card {card.get('card_name', 'Unknown')} for user {user_id} due to null values")
         
-        cards_sorted = sorted(cards, key=calculate_net_savings, reverse=True)
-        
-        # Log warning if top card has negative net savings
-        if cards_sorted and calculate_net_savings(cards_sorted[0]) < 0:
-            logger.warning(f"Top card for user {user_id} has negative net savings: {calculate_net_savings(cards_sorted[0])}")
+        # API already sorts by ROI (total_savings_yearly - joining_fees + total_extra_benefits)
+        # Trust the API's sort order - don't re-sort
         
         # Extract top N cards
         top_n = self.config['processing']['top_n_cards']
-        for i, card in enumerate(cards_sorted[:top_n], 1):
+        for i, card in enumerate(valid_cards[:top_n], 1):
             card_data = self._extract_card_data(card, i)
             result.update(card_data)
         
