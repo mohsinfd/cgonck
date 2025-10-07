@@ -164,52 +164,174 @@ def main():
     with st.sidebar:
         st.header("⚙️ Configuration")
         
+        # Add tab selection
+        config_tab = st.radio(
+            "Configuration Type",
+            ["API & Processing", "Card Name Mapping"],
+            label_visibility="collapsed"
+        )
+        
         # Load default config
         config = load_default_config()
         
-        # API Settings
-        st.subheader("API Settings")
-        config["api"]["sleep_between_requests"] = st.slider(
-            "Sleep between requests (seconds)", 
-            min_value=0.5, 
-            max_value=5.0, 
-            value=1.2, 
-            step=0.1
-        )
-        config["api"]["max_retries"] = st.number_input(
-            "Max retries per request", 
-            min_value=1, 
-            max_value=10, 
-            value=3
-        )
-        
-        # Processing Settings
-        st.subheader("Processing Settings")
-        config["processing"]["top_n_cards"] = st.number_input(
-            "Number of top cards to extract", 
-            min_value=1, 
-            max_value=20, 
-            value=10
-        )
-        config["processing"]["skip_empty_rows"] = st.checkbox(
-            "Skip empty rows", 
-            value=True
-        )
-        config["processing"]["continue_on_error"] = st.checkbox(
-            "Continue on error", 
-            value=True
-        )
-        
-        # Column Mappings
-        st.subheader("Column Mappings")
-        st.markdown("Map your Excel columns to the required fields:")
-        
-        for field, default_col in config["column_mappings"].items():
-            config["column_mappings"][field] = st.text_input(
-                field.replace("_", " ").title(),
-                value=default_col,
-                help=f"Column name for {field}"
+        if config_tab == "API & Processing":
+            # API Settings
+            st.subheader("API Settings")
+            config["api"]["sleep_between_requests"] = st.slider(
+                "Sleep between requests (seconds)", 
+                min_value=0.5, 
+                max_value=5.0, 
+                value=1.2, 
+                step=0.1
             )
+            config["api"]["max_retries"] = st.number_input(
+                "Max retries per request", 
+                min_value=1, 
+                max_value=10, 
+                value=3
+            )
+            
+            # Processing Settings
+            st.subheader("Processing Settings")
+            config["processing"]["top_n_cards"] = st.number_input(
+                "Number of top cards to extract", 
+                min_value=1, 
+                max_value=20, 
+                value=10
+            )
+            config["processing"]["skip_empty_rows"] = st.checkbox(
+                "Skip empty rows", 
+                value=True
+            )
+            config["processing"]["continue_on_error"] = st.checkbox(
+                "Continue on error", 
+                value=True
+            )
+            
+            # Column Mappings
+            st.subheader("Column Mappings")
+            st.markdown("Map your Excel columns to the required fields:")
+            
+            for field, default_col in config["column_mappings"].items():
+                config["column_mappings"][field] = st.text_input(
+                    field.replace("_", " ").title(),
+                    value=default_col,
+                    help=f"Column name for {field}"
+                )
+        
+        elif config_tab == "Card Name Mapping":
+            st.subheader("🃏 Card Name Mapping")
+            st.markdown("Map CashKaro card names to CardGenius card names")
+            
+            # Load or create card mappings
+            try:
+                with open('manual_card_mappings.json', 'r') as f:
+                    card_mappings = json.load(f)
+            except:
+                card_mappings = {}
+            
+            # Load CardGenius cards
+            try:
+                with open('cardgenius_all_cards.json', 'r') as f:
+                    cardgenius_cards = json.load(f)
+            except:
+                cardgenius_cards = []
+            
+            if cardgenius_cards:
+                st.info(f"📋 {len(cardgenius_cards)} CardGenius cards available")
+                
+                # Show current mappings count
+                st.metric("Mapped Cards", len(card_mappings))
+                
+                # Auto-generate mappings button
+                if st.button("🤖 Auto-Generate Mappings"):
+                    from card_name_mapper import CardNameMapper
+                    mapper = CardNameMapper()
+                    
+                    # Your CashKaro cards list
+                    cashkaro_cards = [
+                        "Hsbc Bank Travel One Credit Card", "Hsbc Bank Rupay Cashback Credit Card",
+                        "Idfc First Bank Power Plus Credit Card", "Idfc First Bank Power Plus Rupay Credit Card",
+                        "Idfc First Bank Classic Credit Card", "Idfc First Bank Wow Credit Card",
+                        "Axis Bank Magnus Credit Card", "Axis Bank Flipkart Credit Card",
+                        "American Express Membership Rewards Credit Card", "American Express Smartearn Credit Card",
+                        "Sbi Cashback Credit Card", "Sbi Elite Credit Card",
+                        "Hdfc Millenia Credit Card", "Hdfc Infinia Credit Card",
+                        "Au Bank Zenith+ Credit Card", "Au Bank Altura Credit Card",
+                        # Add more as needed
+                    ]
+                    
+                    # Generate mappings
+                    new_mappings = {}
+                    for ck_name in cashkaro_cards:
+                        match = mapper.find_best_match(ck_name, cardgenius_cards, threshold=0.7)
+                        if match and ck_name not in card_mappings:
+                            new_mappings[ck_name] = match[0]
+                    
+                    # Merge with existing
+                    card_mappings.update(new_mappings)
+                    
+                    with open('manual_card_mappings.json', 'w') as f:
+                        json.dump(card_mappings, f, indent=2)
+                    
+                    st.success(f"✅ Auto-generated {len(new_mappings)} new mappings")
+                    st.warning("⚠️  Please review and correct the auto-generated mappings below")
+                    st.rerun()
+                
+                # Add new mapping section
+                st.subheader("➕ Add/Edit Mapping")
+                
+                cashkaro_name_input = st.text_input("CashKaro Card Name")
+                cardgenius_name_select = st.selectbox(
+                    "CardGenius Card Name",
+                    [""] + sorted(cardgenius_cards)
+                )
+                
+                if st.button("Save Mapping"):
+                    if cashkaro_name_input and cardgenius_name_select:
+                        card_mappings[cashkaro_name_input] = cardgenius_name_select
+                        with open('manual_card_mappings.json', 'w') as f:
+                            json.dump(card_mappings, f, indent=2)
+                        st.success(f"✅ Saved: {cashkaro_name_input} → {cardgenius_name_select}")
+                        st.rerun()
+                
+                # Show existing mappings
+                st.subheader("📋 Current Mappings")
+                
+                if card_mappings:
+                    # Display with edit/delete options
+                    st.markdown(f"**Total: {len(card_mappings)} mappings**")
+                    
+                    # Create editable table
+                    mapping_list = list(card_mappings.items())
+                    
+                    for i, (ck_name, cg_name) in enumerate(mapping_list):
+                        col1, col2, col3 = st.columns([2, 2, 1])
+                        
+                        with col1:
+                            st.text(ck_name)
+                        with col2:
+                            st.text(f"→ {cg_name}")
+                        with col3:
+                            if st.button("🗑️", key=f"del_{i}"):
+                                del card_mappings[ck_name]
+                                with open('manual_card_mappings.json', 'w') as f:
+                                    json.dump(card_mappings, f, indent=2)
+                                st.success(f"✅ Deleted mapping for {ck_name}")
+                                st.rerun()
+                    
+                    # Export option
+                    st.download_button(
+                        "📥 Download manual_card_mappings.json",
+                        data=json.dumps(card_mappings, indent=2),
+                        file_name="manual_card_mappings.json",
+                        mime="application/json",
+                        use_container_width=True
+                    )
+                else:
+                    st.info("No mappings yet. Click 'Auto-Generate Mappings' or add manually above.")
+            else:
+                st.warning("⚠️  CardGenius cards not loaded. Run the application first to fetch cards.")
     
     # Show recent files section
     show_recent_files()

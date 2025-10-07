@@ -233,7 +233,7 @@ class CardGeniusBatchRunner:
                 rate_str = f"{best_option['method']}: {best_option['conversion_rate']}"
                 if best_option['brand']:
                     rate_str += f" ({best_option['brand']})"
-                conversion_rate_strings.append(rate_str)
+                    conversion_rate_strings.append(rate_str)
             
             result[f"{prefix}redemption_options"] = json.dumps(clean_options, ensure_ascii=False)
             
@@ -266,8 +266,11 @@ class CardGeniusBatchRunner:
         
         for spend_key in spend_keys:
             spend_data = spending_breakdown.get(spend_key, {})
+            
             if isinstance(spend_data, dict):
-                result[f"{prefix}{spend_key}_points"] = spend_data.get('points_earned', 0)
+                points_earned = spend_data.get('points_earned', 0)
+                result[f"{prefix}{spend_key}_points"] = points_earned
+                
                 # Handle explanation as list or string
                 explanation = spend_data.get('explanation', '')
                 if isinstance(explanation, list) and explanation:
@@ -312,30 +315,48 @@ class CardGeniusBatchRunner:
         
         # Calculate correct ROI using only Vouchers/Cashback conversion rates
         def calculate_correct_roi(card):
-            # Get the highest Vouchers/Cashback conversion rate
-            redemption_options = card.get('redemption_options', [])
-            voucher_cashback_rates = []
-            
-            for opt in redemption_options:
-                method = opt.get('method', '')
-                if method in ['Vouchers', 'Cashback']:
-                    voucher_cashback_rates.append(opt.get('conversion_rate', 0))
-            
-            # Calculate base net savings
-            base_net_savings = (float(str(card.get('total_savings_yearly', 0) or 0)) - 
-                               float(str(card.get('joining_fees', 0) or 0)) + 
-                               float(str(card.get('total_extra_benefits', 0) or 0)))
-            
-            if voucher_cashback_rates:
-                # Use highest Vouchers/Cashback rate for ROI calculation
-                highest_rate = max(voucher_cashback_rates)
-                return base_net_savings * highest_rate
-            else:
-                # Fallback to base net savings if no Vouchers/Cashback options
-                return base_net_savings
+            try:
+                # Get the highest Vouchers/Cashback conversion rate
+                redemption_options = card.get('redemption_options', [])
+                voucher_cashback_rates = []
+                
+                for opt in redemption_options:
+                    method = opt.get('method', '')
+                    if method in ['Vouchers', 'Cashback']:
+                        rate = opt.get('conversion_rate', 0)
+                        if rate and rate > 0:
+                            voucher_cashback_rates.append(float(str(rate)))
+                
+                # Calculate base net savings
+                base_net_savings = (float(str(card.get('total_savings_yearly', 0) or 0)) - 
+                                   float(str(card.get('joining_fees', 0) or 0)) + 
+                                   float(str(card.get('total_extra_benefits', 0) or 0)))
+                
+                if voucher_cashback_rates:
+                    # Use highest Vouchers/Cashback rate for ROI calculation
+                    highest_rate = max(voucher_cashback_rates)
+                    return base_net_savings * highest_rate
+                else:
+                    # Fallback to base net savings if no Vouchers/Cashback options
+                    return base_net_savings
+            except Exception as e:
+                logger.warning(f"Error calculating ROI for card {card.get('card_name', 'Unknown')}: {e}")
+                # Fallback to simple net savings calculation
+                return (float(str(card.get('total_savings_yearly', 0) or 0)) - 
+                       float(str(card.get('joining_fees', 0) or 0)) + 
+                       float(str(card.get('total_extra_benefits', 0) or 0)))
         
-        # Sort by correct ROI (highest to lowest)
-        cards_sorted = sorted(valid_cards, key=calculate_correct_roi, reverse=True)
+        # Sort by net savings (highest to lowest) - this matches what's displayed in the output
+        def calculate_net_savings(card):
+            try:
+                return (float(str(card.get('total_savings_yearly', 0) or 0)) - 
+                       float(str(card.get('joining_fees', 0) or 0)) + 
+                       float(str(card.get('total_extra_benefits', 0) or 0)))
+            except Exception as e:
+                logger.warning(f"Error calculating net savings for card {card.get('card_name', 'Unknown')}: {e}")
+                return 0
+        
+        cards_sorted = sorted(valid_cards, key=calculate_net_savings, reverse=True)
         
         # Log the top card's ROI for verification
         if cards_sorted:

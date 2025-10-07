@@ -31,7 +31,7 @@ app = FastAPI(
 )
 
 # API Key (hardcoded as requested)
-API_KEY = "YOUR_SECRET_API_KEY_HERE"  # Change this to your actual key
+API_KEY = "cgapi_2025_secure_key_12345"  # Change this to your actual key
 
 # Job storage (in-memory for now, can be moved to Redis/DB later)
 jobs = {}

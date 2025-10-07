@@ -11,3 +11,4 @@ print(f'confirmed: {row[" avg_confirmed_gmv "]}')
 print(f'grocery: {row[" avg_grocery_gmv "]}')
 
 
+

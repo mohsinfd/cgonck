@@ -1,0 +1,197 @@
+{
+  "Hsbc Bank Rupay Cashback Credit Card": {
+    "cardgenius_name": "SBI Cashback",
+    "similarity_score": 0.8,
+    "match_type": "fuzzy"
+  },
+  "Axis Bank Magnus Burgundy Credit Card": {
+    "cardgenius_name": "AXIS MAGNUS",
+    "similarity_score": 0.7096774193548387,
+    "match_type": "fuzzy"
+  },
+  "Axis Bank Lic Platinum Credit Card": {
+    "cardgenius_name": "AXIS FLIPKART",
+    "similarity_score": 0.6666666666666666,
+    "match_type": "fuzzy"
+  },
+  "American Express Platinum Travel Credit Card": {
+    "cardgenius_name": "AMEX SMART EARN",
+    "similarity_score": 0.6101694915254238,
+    "match_type": "fuzzy"
+  },
+  "Regalia Gold": {
+    "cardgenius_name": "HDFC Regalia Gold Credit Card",
+    "similarity_score": 1.0,
+    "match_type": "manual"
+  },
+  "Sbi Bpcl Credit Card": {
+    "cardgenius_name": "SBI Cashback",
+    "similarity_score": 0.6,
+    "match_type": "fuzzy"
+  },
+  "Hdfc Bank Business Regalia Gold Credit Card": {
+    "cardgenius_name": "HDFC Regalia Gold Credit Card",
+    "similarity_score": 0.7906976744186046,
+    "match_type": "fuzzy"
+  },
+  "Hdfc Bank Pixel Credit Card": {
+    "cardgenius_name": "HDFC Millenia",
+    "similarity_score": 0.6086956521739131,
+    "match_type": "fuzzy"
+  },
+  "Hdfc Millenia Credit Card": {
+    "cardgenius_name": "HDFC Millenia",
+    "similarity_score": 1.0,
+    "match_type": "manual"
+  },
+  "Axis Bank Airtel Rupay Credit Card": {
+    "cardgenius_name": "AXIS FLIPKART",
+    "similarity_score": 0.6666666666666666,
+    "match_type": "fuzzy"
+  },
+  "American Express Membership Rewards Credit Card": {
+    "cardgenius_name": "MRCC",
+    "similarity_score": 1.0,
+    "match_type": "manual"
+  },
+  "Axis Bank Atlas Credit Card": {
+    "cardgenius_name": "AXIS MAGNUS",
+    "similarity_score": 0.6666666666666666,
+    "match_type": "fuzzy"
+  },
+  "American Express Gold Credit Card": {
+    "cardgenius_name": "AMEX GOLD",
+    "similarity_score": 1.0,
+    "match_type": "manual"
+  },
+  "Hdfc Moneyback Credit Card": {
+    "cardgenius_name": "HDFC  Diners Black Credit Card",
+    "similarity_score": 0.7096774193548387,
+    "match_type": "fuzzy"
+  },
+  "Hdfc Bank Indianoil Credit Card": {
+    "cardgenius_name": "HDFC Millenia",
+    "similarity_score": 0.6666666666666666,
+    "match_type": "fuzzy"
+  },
+  "Hdfc Business Moneyback Credit Card": {
+    "cardgenius_name": "HDFC  Diners Black Credit Card",
+    "similarity_score": 0.7,
+    "match_type": "fuzzy"
+  },
+  "Au Bank Business Cashback Credit Card": {
+    "cardgenius_name": "SBI Cashback",
+    "similarity_score": 0.6875,
+    "match_type": "fuzzy"
+  },
+  "Axis Bank Magnus Credit Card": {
+    "cardgenius_name": "AXIS MAGNUS",
+    "similarity_score": 1.0,
+    "match_type": "manual"
+  },
+  "Axis Bank Neo Rupay Credit Card": {
+    "cardgenius_name": "AXIS MAGNUS",
+    "similarity_score": 0.631578947368421,
+    "match_type": "fuzzy"
+  },
+  "Axis Bank Fibe Credit Card": {
+    "cardgenius_name": "AXIS FLIPKART",
+    "similarity_score": 0.6363636363636364,
+    "match_type": "fuzzy"
+  },
+  "Sbi Cashback Credit Card": {
+    "cardgenius_name": "SBI Cashback",
+    "similarity_score": 1.0,
+    "match_type": "manual"
+  },
+  "Hdfc Infinia Credit Card": {
+    "cardgenius_name": "HDFC Millenia",
+    "similarity_score": 0.72,
+    "match_type": "fuzzy"
+  },
+  "Hdfc Diners Privilege Credit Card": {
+    "cardgenius_name": "HDFC  Diners Black Credit Card",
+    "similarity_score": 0.6842105263157895,
+    "match_type": "fuzzy"
+  },
+  "Axis Bank Airtel Credit Card": {
+    "cardgenius_name": "AXIS FLIPKART",
+    "similarity_score": 0.6666666666666666,
+    "match_type": "fuzzy"
+  },
+  "Axis Bank Cashback Mastercard Credit Card": {
+    "cardgenius_name": "SBI Cashback",
+    "similarity_score": 0.8,
+    "match_type": "fuzzy"
+  },
+  "Axis Bank Neo Credit Card": {
+    "cardgenius_name": "AXIS MAGNUS",
+    "similarity_score": 0.631578947368421,
+    "match_type": "fuzzy"
+  },
+  "Hsbc Bank Rupay Platinum Credit Card": {
+    "cardgenius_name": "HSBC Live+",
+    "similarity_score": 0.6363636363636364,
+    "match_type": "fuzzy"
+  },
+  "Idfc First Bank Millennia Credit Card": {
+    "cardgenius_name": "HDFC Millenia",
+    "similarity_score": 0.8888888888888888,
+    "match_type": "fuzzy"
+  },
+  "American Express Smartearn Credit Card": {
+    "cardgenius_name": "AMEX SMART EARN",
+    "similarity_score": 1.0,
+    "match_type": "manual"
+  },
+  "Hsbc Bank Hsbc Live+Plus Credit Credit Card": {
+    "cardgenius_name": "HSBC Live+",
+    "similarity_score": 1.0,
+    "match_type": "manual"
+  },
+  "Hdfc Biz Black Credit Card": {
+    "cardgenius_name": "HDFC  Diners Black Credit Card",
+    "similarity_score": 0.7741935483870968,
+    "match_type": "fuzzy"
+  },
+  "Hdfc Shoppers Stop Black Credit Card": {
+    "cardgenius_name": "HDFC  Diners Black Credit Card",
+    "similarity_score": 0.6829268292682927,
+    "match_type": "fuzzy"
+  },
+  "Axis Bank Flipkart Credit Card": {
+    "cardgenius_name": "AXIS FLIPKART",
+    "similarity_score": 1.0,
+    "match_type": "manual"
+  },
+  "Axis Bank Amex Privilege Credit Card": {
+    "cardgenius_name": "AMEX GOLD",
+    "similarity_score": 0.6923076923076923,
+    "match_type": "fuzzy"
+  },
+  "Axis Bank My Zone Credit Card": {
+    "cardgenius_name": "AXIS MAGNUS",
+    "similarity_score": 0.6086956521739131,
+    "match_type": "fuzzy"
+  },
+  "Axis Bank Cashback Visa Credit Card": {
+    "cardgenius_name": "SBI Cashback",
+    "similarity_score": 0.8,
+    "match_type": "fuzzy"
+  },
+  "Axis Bank Rewards Credit Card": {
+    "cardgenius_name": "AXIS MAGNUS",
+    "similarity_score": 0.6086956521739131,
+    "match_type": "fuzzy"
+  },
+  "Hsbc Bank Visa Platinum Credit Card": {
+    "cardgenius_name": "HSBC Live+",
+    "similarity_score": 0.6363636363636364,
+    "match_type": "fuzzy"
+  },
+  "Hsbc Bank Cash Back Credit Card": {
+    "cardgenius_name": "SBI Cashback",
+    "similarity_score": 0.7692307692307693,
+    "match_type": "fuzzy"
+  }
+}
