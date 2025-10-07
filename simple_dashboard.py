@@ -74,8 +74,7 @@ def load_default_config():
             "myntra": " avg_myntra_gmv ",
             "ajio": " avg_ajio_gmv ",
             "avg_gmv": " avg_confirmed_gmv ",
-            "grocery": " avg_grocery_gmv ",
-            "total_gmv": " total_gmv "
+            "grocery": " avg_grocery_gmv "
         },
         "processing": {
             "top_n_cards": 10,

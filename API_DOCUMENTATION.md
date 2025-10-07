@@ -34,8 +34,7 @@ Submit a batch of users for card recommendations.
       "avg_myntra_gmv": 2000,
       "avg_ajio_gmv": 1000,
       "avg_confirmed_gmv": 5000,
-      "avg_grocery_gmv": 8000,
-      "total_gmv": 24000
+      "avg_grocery_gmv": 8000
     }
   ],
   "top_n_cards": 10

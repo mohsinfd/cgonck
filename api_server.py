@@ -46,7 +46,6 @@ class UserSpendingData(BaseModel):
     avg_ajio_gmv: Optional[float] = 0
     avg_confirmed_gmv: Optional[float] = 0
     avg_grocery_gmv: Optional[float] = 0
-    total_gmv: Optional[float] = 0
 
 class BatchRecommendationRequest(BaseModel):
     """Batch recommendation request model"""
@@ -96,8 +95,7 @@ def process_batch(job_id: str, users: List[UserSpendingData], top_n_cards: int):
                 'avg_myntra_gmv': user.avg_myntra_gmv or 0,
                 'avg_ajio_gmv': user.avg_ajio_gmv or 0,
                 'avg_confirmed_gmv': user.avg_confirmed_gmv or 0,
-                'avg_grocery_gmv': user.avg_grocery_gmv or 0,
-                'total_gmv': user.total_gmv or 0
+                'avg_grocery_gmv': user.avg_grocery_gmv or 0
             })
         
         df = pd.DataFrame(user_data)
@@ -130,8 +128,7 @@ def process_batch(job_id: str, users: List[UserSpendingData], top_n_cards: int):
                 "myntra": "avg_myntra_gmv",
                 "ajio": "avg_ajio_gmv",
                 "avg_gmv": "avg_confirmed_gmv",
-                "grocery": "avg_grocery_gmv",
-                "total_gmv": "total_gmv"
+                "grocery": "avg_grocery_gmv"
             },
             "processing": {
                 "top_n_cards": top_n_cards,
