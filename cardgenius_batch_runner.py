@@ -310,12 +310,41 @@ class CardGeniusBatchRunner:
             else:
                 logger.warning(f"Skipping card {card.get('card_name', 'Unknown')} for user {user_id} due to null values")
         
-        # API already sorts by ROI (total_savings_yearly - joining_fees + total_extra_benefits)
-        # Trust the API's sort order - don't re-sort
+        # Calculate correct ROI using only Vouchers/Cashback conversion rates
+        def calculate_correct_roi(card):
+            # Get the highest Vouchers/Cashback conversion rate
+            redemption_options = card.get('redemption_options', [])
+            voucher_cashback_rates = []
+            
+            for opt in redemption_options:
+                method = opt.get('method', '')
+                if method in ['Vouchers', 'Cashback']:
+                    voucher_cashback_rates.append(opt.get('conversion_rate', 0))
+            
+            # Calculate base net savings
+            base_net_savings = (float(str(card.get('total_savings_yearly', 0) or 0)) - 
+                               float(str(card.get('joining_fees', 0) or 0)) + 
+                               float(str(card.get('total_extra_benefits', 0) or 0)))
+            
+            if voucher_cashback_rates:
+                # Use highest Vouchers/Cashback rate for ROI calculation
+                highest_rate = max(voucher_cashback_rates)
+                return base_net_savings * highest_rate
+            else:
+                # Fallback to base net savings if no Vouchers/Cashback options
+                return base_net_savings
+        
+        # Sort by correct ROI (highest to lowest)
+        cards_sorted = sorted(valid_cards, key=calculate_correct_roi, reverse=True)
+        
+        # Log the top card's ROI for verification
+        if cards_sorted:
+            top_card_roi = calculate_correct_roi(cards_sorted[0])
+            logger.info(f"Top card for user {user_id}: {cards_sorted[0].get('card_name', 'Unknown')} with ROI: {top_card_roi}")
         
         # Extract top N cards
         top_n = self.config['processing']['top_n_cards']
-        for i, card in enumerate(valid_cards[:top_n], 1):
+        for i, card in enumerate(cards_sorted[:top_n], 1):
             card_data = self._extract_card_data(card, i)
             result.update(card_data)
         
