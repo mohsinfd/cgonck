@@ -6,8 +6,8 @@
     "max_retries": 3
   },
   "excel": {
-    "input_file": "test_input.xlsx",
-    "output_file": "test_output.xlsx",
+    "input_file": "sample_5_users.xlsx",
+    "output_file": "results_sample_5_users.xlsx",
     "sheet_name": 0
   },
   "column_mappings": {
@@ -21,7 +21,7 @@
   },
   "processing": {
     "top_n_cards": 3,
-    "max_workers": 20,
+    "max_workers": 5,
     "extract_spend_keys": [
       "amazon_spends",
       "flipkart_spends",

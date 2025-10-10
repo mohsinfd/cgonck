@@ -184,72 +184,137 @@ class CardGeniusBatchRunner:
         extra_benefits = card.get('total_extra_benefits', 0)
         net_savings = float(str(total_savings or 0)) - float(str(joining_fees or 0)) + float(str(extra_benefits or 0))
         
+        # Create explanatory note for total_extra_benefits
+        extra_benefits_explanation = ""
+        welcome_benefits = card.get('welcomeBenefits', [])
+        milestone_benefits = card.get('milestone_benefits', [])
+        
+        benefit_parts = []
+        if welcome_benefits:
+            for benefit in welcome_benefits:
+                cash_value = benefit.get('cash_value', 0)
+                if cash_value > 0:
+                    benefit_parts.append(f"₹{cash_value} welcome bonus")
+        
+        if milestone_benefits:
+            for benefit in milestone_benefits:
+                if benefit.get('eligible', False):
+                    rp_bonus = benefit.get('rpBonus', '')
+                    voucher_bonus = benefit.get('voucherBonus', '')
+                    cash_conversion = benefit.get('cash_conversion', 0)
+                    
+                    if rp_bonus and cash_conversion:
+                        try:
+                            rp_value = float(rp_bonus) * float(cash_conversion)
+                            benefit_parts.append(f"₹{rp_value:.0f} milestone rewards")
+                        except:
+                            pass
+                    
+                    if voucher_bonus:
+                        benefit_parts.append(f"₹{voucher_bonus} voucher bonus")
+        
+        if benefit_parts:
+            extra_benefits_explanation = "Includes: " + ", ".join(benefit_parts)
+        
+        # Handle recommended redemption options first
+        recommended_redemption_options = card.get('recommended_redemption_options', [])
+        redemption_options = card.get('redemption_options', [])
+        
+        recommended_option = None
+        if recommended_redemption_options and redemption_options:
+            # Find the recommended option details
+            for rec_opt in recommended_redemption_options:
+                redemption_option_id = rec_opt.get('redemption_option_id')
+                note = rec_opt.get('note', '')
+                
+                # Find the actual redemption option details
+                for opt in redemption_options:
+                    if opt.get('id') == redemption_option_id:
+                        recommended_option = {
+                            'method': opt.get('method', ''),
+                            'brand': opt.get('brand', ''),
+                            'conversion_rate': opt.get('conversion_rate', 0),
+                            'note': note
+                        }
+                        break
+                if recommended_option:
+                    break
+        
+        # Determine card type and add derived fields
+        card_type = "unknown"
+        is_cashback_card = False
+        redemption_required = True
+        effective_conversion_rate = 0.0
+        
+        # Check if it's a cashback card (no points, direct savings)
+        amazon_points = 0
+        flipkart_points = 0
+        grocery_points = 0
+        other_online_points = 0
+        
+        # Get points from spending breakdown
+        spending_breakdown = card.get('spending_breakdown', {})
+        if isinstance(spending_breakdown, dict):
+            amazon_data = spending_breakdown.get('amazon_spends', {})
+            flipkart_data = spending_breakdown.get('flipkart_spends', {})
+            grocery_data = spending_breakdown.get('grocery_spends_online', {})
+            other_data = spending_breakdown.get('other_online_spends', {})
+            
+            amazon_points = amazon_data.get('points_earned', 0) if isinstance(amazon_data, dict) else 0
+            flipkart_points = flipkart_data.get('points_earned', 0) if isinstance(flipkart_data, dict) else 0
+            grocery_points = grocery_data.get('points_earned', 0) if isinstance(grocery_data, dict) else 0
+            other_online_points = other_data.get('points_earned', 0) if isinstance(other_data, dict) else 0
+        
+        # Determine card type based on points vs direct savings
+        total_points = amazon_points + flipkart_points + grocery_points + other_online_points
+        total_savings_value = float(str(total_savings or 0))
+        
+        if total_points == 0 and total_savings_value > 0:
+            # Direct cashback card
+            card_type = "cashback"
+            is_cashback_card = True
+            redemption_required = False
+            effective_conversion_rate = 1.0
+        elif total_points > 0:
+            # Points-based rewards card
+            card_type = "rewards"
+            is_cashback_card = False
+            redemption_required = True
+            # Use recommended redemption rate if available
+            if recommended_option:
+                effective_conversion_rate = recommended_option['conversion_rate']
+            else:
+                effective_conversion_rate = 0.0
+        else:
+            # Fallback case
+            card_type = "unknown"
+            is_cashback_card = False
+            redemption_required = True
+            effective_conversion_rate = 0.0
+        
         result = {
             f"{prefix}card_name": card.get('card_name', ''),
+            f"{prefix}card_type": card_type,
+            f"{prefix}is_cashback_card": is_cashback_card,
+            f"{prefix}redemption_required": redemption_required,
+            f"{prefix}effective_conversion_rate": effective_conversion_rate,
             f"{prefix}joining_fees": joining_fees,
             f"{prefix}total_savings_yearly": total_savings,
             f"{prefix}total_extra_benefits": extra_benefits,
+            f"{prefix}total_extra_benefits_explanation": extra_benefits_explanation,
             f"{prefix}net_savings": net_savings,
-            f"{prefix}network_url": card.get('network_url') or card.get('cg_network_url', ''),
         }
         
-        # Store all redemption options as JSON and create formatted string
-        redemption_options = card.get('redemption_options', [])
-        if redemption_options:
-            # Clean up the redemption options for JSON storage
-            clean_options = []
-            conversion_rate_strings = []
-            
-            # Filter to only Vouchers and Cashback methods, find highest rate
-            voucher_cashback_options = []
-            for opt in redemption_options:
-                method = opt.get('method', '').strip()
-                conversion_rate = opt.get('conversion_rate', 0)
-                
-                # Only include Vouchers and Cashback methods
-                if method in ['Vouchers', 'Cashback'] and conversion_rate > 0:
-                    voucher_cashback_options.append({
-                        'method': method,
-                        'conversion_rate': conversion_rate,
-                        'brand': opt.get('brand', ''),
-                        'description': opt.get('description', '')
-                    })
-            
-            # Find the highest conversion rate among filtered options
-            if voucher_cashback_options:
-                best_option = max(voucher_cashback_options, key=lambda x: x['conversion_rate'])
-                
-                clean_opt = {
-                    'type': best_option['method'],
-                    'conversion_rate': best_option['conversion_rate'],
-                    'description': best_option['description'],
-                    'brand': best_option['brand'],
-                    'min_amount': 0,
-                    'max_amount': 0
-                }
-                clean_options.append(clean_opt)
-                
-                # Create formatted string for the best option
-                rate_str = f"{best_option['method']}: {best_option['conversion_rate']}"
-                if best_option['brand']:
-                    rate_str += f" ({best_option['brand']})"
-                    conversion_rate_strings.append(rate_str)
-            
-            result[f"{prefix}redemption_options"] = json.dumps(clean_options, ensure_ascii=False)
-            
-            # Create formatted string of all conversion rates
-            if conversion_rate_strings:
-                result[f"{prefix}all_conversion_rates"] = " | ".join(conversion_rate_strings)
-            else:
-                result[f"{prefix}all_conversion_rates"] = ""
-            
-            # Also keep highest conversion rate for backward compatibility
-            conversion_rates = [opt.get('conversion_rate', 0) for opt in redemption_options if opt.get('conversion_rate')]
-            result[f"{prefix}highest_conversion_rate"] = max(conversion_rates) if conversion_rates else 0
+        # Add redemption fields to result
+        if recommended_option:
+            result[f"{prefix}recommended_redemption_method"] = recommended_option['method']
+            result[f"{prefix}recommended_redemption_conversion_rate"] = recommended_option['conversion_rate']
+            result[f"{prefix}recommended_redemption_note"] = recommended_option['note']
         else:
-            result[f"{prefix}redemption_options"] = json.dumps([], ensure_ascii=False)
-            result[f"{prefix}all_conversion_rates"] = ""
-            result[f"{prefix}highest_conversion_rate"] = 0
+            # Fallback to empty values
+            result[f"{prefix}recommended_redemption_method"] = ""
+            result[f"{prefix}recommended_redemption_conversion_rate"] = 0
+            result[f"{prefix}recommended_redemption_note"] = ""
         
         # Extract spend breakdown data
         spend_keys = self.config['processing']['extract_spend_keys']
@@ -268,8 +333,13 @@ class CardGeniusBatchRunner:
             spend_data = spending_breakdown.get(spend_key, {})
             
             if isinstance(spend_data, dict):
+                # Extract both points and rupee values
                 points_earned = spend_data.get('points_earned', 0)
+                savings_rupees = spend_data.get('savings', 0)
+                
+                # Output both values for clarity
                 result[f"{prefix}{spend_key}_points"] = points_earned
+                result[f"{prefix}{spend_key}_rupees"] = savings_rupees
                 
                 # Handle explanation as list or string
                 explanation = spend_data.get('explanation', '')
@@ -278,6 +348,7 @@ class CardGeniusBatchRunner:
                 result[f"{prefix}{spend_key}_explanation"] = explanation
             else:
                 result[f"{prefix}{spend_key}_points"] = 0
+                result[f"{prefix}{spend_key}_rupees"] = 0
                 result[f"{prefix}{spend_key}_explanation"] = ''
         
         return result
@@ -413,18 +484,23 @@ class CardGeniusBatchRunner:
             prefix = f"top{i}_"
             result_columns.update({
                 f"{prefix}card_name": "",
+                f"{prefix}card_type": "",
+                f"{prefix}is_cashback_card": False,
+                f"{prefix}redemption_required": True,
+                f"{prefix}effective_conversion_rate": 0.0,
                 f"{prefix}joining_fees": 0,
                 f"{prefix}total_savings_yearly": 0,
                 f"{prefix}total_extra_benefits": 0,
+                f"{prefix}total_extra_benefits_explanation": "",
                 f"{prefix}net_savings": 0,
-                f"{prefix}highest_conversion_rate": 0,
-                f"{prefix}all_conversion_rates": "",
-                f"{prefix}redemption_options": "",
-                f"{prefix}network_url": "",
+                f"{prefix}recommended_redemption_method": "",
+                f"{prefix}recommended_redemption_conversion_rate": 0,
+                f"{prefix}recommended_redemption_note": "",
             })
             
             for spend_key in processing_config['extract_spend_keys']:
                 result_columns[f"{prefix}{spend_key}_points"] = 0
+                result_columns[f"{prefix}{spend_key}_rupees"] = 0
                 result_columns[f"{prefix}{spend_key}_explanation"] = ""
         
         result_columns["cardgenius_error"] = ""

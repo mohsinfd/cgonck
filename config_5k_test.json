@@ -1,13 +1,13 @@
 {
   "api": {
-    "base_url": "https://bk-prod-external.bankkaro.com/cg/api/beta",
+    "base_url": "https://bk-prod-external.bankkaro.com/cg/api/pro",
     "timeout": 30,
-    "sleep_between_requests": 1.2,
+    "sleep_between_requests": 0,
     "max_retries": 3
   },
   "excel": {
-    "input_file": "test_input.xlsx",
-    "output_file": "test_output.xlsx",
+    "input_file": "test_5k_users.xlsx",
+    "output_file": "results_5k_users.xlsx",
     "sheet_name": 0
   },
   "column_mappings": {
@@ -20,8 +20,8 @@
     "grocery": "avg_grocery_gmv"
   },
   "processing": {
-    "top_n_cards": 3,
-    "max_workers": 20,
+    "top_n_cards": 10,
+    "max_workers": 10,
     "extract_spend_keys": [
       "amazon_spends",
       "flipkart_spends",

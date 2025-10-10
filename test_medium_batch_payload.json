@@ -1,0 +1,455 @@
+{
+  "users": [
+    {
+      "user_id": "CUST8118034",
+      "avg_amazon_gmv": 37674.59,
+      "avg_flipkart_gmv": 26585.08,
+      "avg_myntra_gmv": 2224.19,
+      "avg_ajio_gmv": 0,
+      "avg_grocery_gmv": 6189.28,
+      "avg_confirmed_gmv": 70693.33
+    },
+    {
+      "user_id": "USER9444679",
+      "avg_amazon_gmv": 4962.47,
+      "avg_flipkart_gmv": 1741.3,
+      "avg_myntra_gmv": 0,
+      "avg_ajio_gmv": 40.43,
+      "avg_grocery_gmv": 3188.5,
+      "avg_confirmed_gmv": 6597.51
+    },
+    {
+      "user_id": "CK2413463",
+      "avg_amazon_gmv": 14681.94,
+      "avg_flipkart_gmv": 8808.34,
+      "avg_myntra_gmv": 0,
+      "avg_ajio_gmv": 1182.84,
+      "avg_grocery_gmv": 11852.37,
+      "avg_confirmed_gmv": 79562.94
+    },
+    {
+      "user_id": "CUST7145925",
+      "avg_amazon_gmv": 37985.67,
+      "avg_flipkart_gmv": 20242.95,
+      "avg_myntra_gmv": 2200.96,
+      "avg_ajio_gmv": 2749.48,
+      "avg_grocery_gmv": 10081.99,
+      "avg_confirmed_gmv": 65645.85
+    },
+    {
+      "user_id": "USER4322115",
+      "avg_amazon_gmv": 37528.77,
+      "avg_flipkart_gmv": 20025.97,
+      "avg_myntra_gmv": 10000,
+      "avg_ajio_gmv": 1765.91,
+      "avg_grocery_gmv": 7934.73,
+      "avg_confirmed_gmv": 63685.68
+    },
+    {
+      "user_id": "CUST8467810",
+      "avg_amazon_gmv": 36173.48,
+      "avg_flipkart_gmv": 14380.84,
+      "avg_myntra_gmv": 4948.08,
+      "avg_ajio_gmv": 1674.14,
+      "avg_grocery_gmv": 15000,
+      "avg_confirmed_gmv": 29634.17
+    },
+    {
+      "user_id": "CK7524166",
+      "avg_amazon_gmv": 25007.28,
+      "avg_flipkart_gmv": 15643.19,
+      "avg_myntra_gmv": 5958.8,
+      "avg_ajio_gmv": 5000,
+      "avg_grocery_gmv": 7871.85,
+      "avg_confirmed_gmv": 36277.64
+    },
+    {
+      "user_id": "CUST2548557",
+      "avg_amazon_gmv": 3161.54,
+      "avg_flipkart_gmv": 5000,
+      "avg_myntra_gmv": 2000,
+      "avg_ajio_gmv": 1000,
+      "avg_grocery_gmv": 1940.66,
+      "avg_confirmed_gmv": 12291.91
+    },
+    {
+      "user_id": "USER4259801",
+      "avg_amazon_gmv": 34011.06,
+      "avg_flipkart_gmv": 7373.1,
+      "avg_myntra_gmv": 7786.3,
+      "avg_ajio_gmv": 1441.95,
+      "avg_grocery_gmv": 13040.09,
+      "avg_confirmed_gmv": 31969.07
+    },
+    {
+      "user_id": "CK3536286",
+      "avg_amazon_gmv": 38710.55,
+      "avg_flipkart_gmv": 18140.02,
+      "avg_myntra_gmv": 9275.82,
+      "avg_ajio_gmv": 2022.89,
+      "avg_grocery_gmv": 6004.15,
+      "avg_confirmed_gmv": 80569.25
+    },
+    {
+      "user_id": "CUST7237707",
+      "avg_amazon_gmv": 30224.95,
+      "avg_flipkart_gmv": 19928.57,
+      "avg_myntra_gmv": 10000,
+      "avg_ajio_gmv": 0,
+      "avg_grocery_gmv": 11792.03,
+      "avg_confirmed_gmv": 42978.2
+    },
+    {
+      "user_id": "CUST8339872",
+      "avg_amazon_gmv": 76109.68,
+      "avg_flipkart_gmv": 150000,
+      "avg_myntra_gmv": 10377.22,
+      "avg_ajio_gmv": 0,
+      "avg_grocery_gmv": 32118.28,
+      "avg_confirmed_gmv": 294159.69
+    },
+    {
+      "user_id": "CUST9143898",
+      "avg_amazon_gmv": 81287.5,
+      "avg_flipkart_gmv": 139204.6,
+      "avg_myntra_gmv": 17348.91,
+      "avg_ajio_gmv": 8339.7,
+      "avg_grocery_gmv": 22563.93,
+      "avg_confirmed_gmv": 268550.73
+    },
+    {
+      "user_id": "CUST6971246",
+      "avg_amazon_gmv": 8017.84,
+      "avg_flipkart_gmv": 2655.91,
+      "avg_myntra_gmv": 2000,
+      "avg_ajio_gmv": 1000,
+      "avg_grocery_gmv": 2032.96,
+      "avg_confirmed_gmv": 7112.76
+    },
+    {
+      "user_id": "CK3271575",
+      "avg_amazon_gmv": 10000,
+      "avg_flipkart_gmv": 1701.23,
+      "avg_myntra_gmv": 2000,
+      "avg_ajio_gmv": 70.63,
+      "avg_grocery_gmv": 1412.2,
+      "avg_confirmed_gmv": 4161.65
+    },
+    {
+      "user_id": "CUST1189011",
+      "avg_amazon_gmv": 200000,
+      "avg_flipkart_gmv": 99795.17,
+      "avg_myntra_gmv": 21080.84,
+      "avg_ajio_gmv": 11431.38,
+      "avg_grocery_gmv": 50000,
+      "avg_confirmed_gmv": 314902.82
+    },
+    {
+      "user_id": "CK9525585",
+      "avg_amazon_gmv": 45841.01,
+      "avg_flipkart_gmv": 16979.07,
+      "avg_myntra_gmv": 0,
+      "avg_ajio_gmv": 1741.59,
+      "avg_grocery_gmv": 10171.92,
+      "avg_confirmed_gmv": 51591.82
+    },
+    {
+      "user_id": "CUST9307833",
+      "avg_amazon_gmv": 93034.11,
+      "avg_flipkart_gmv": 129713.34,
+      "avg_myntra_gmv": 18556.7,
+      "avg_ajio_gmv": 14820.31,
+      "avg_grocery_gmv": 16139.03,
+      "avg_confirmed_gmv": 500000
+    },
+    {
+      "user_id": "CK5175118",
+      "avg_amazon_gmv": 24636.2,
+      "avg_flipkart_gmv": 25963.04,
+      "avg_myntra_gmv": 7132.96,
+      "avg_ajio_gmv": 1625.4,
+      "avg_grocery_gmv": 12155.78,
+      "avg_confirmed_gmv": 87533.13
+    },
+    {
+      "user_id": "CK3058628",
+      "avg_amazon_gmv": 6803.7,
+      "avg_flipkart_gmv": 3979.78,
+      "avg_myntra_gmv": 954.15,
+      "avg_ajio_gmv": 1000,
+      "avg_grocery_gmv": 2880.93,
+      "avg_confirmed_gmv": 6006.66
+    },
+    {
+      "user_id": "CK7974849",
+      "avg_amazon_gmv": 85850.75,
+      "avg_flipkart_gmv": 102404.5,
+      "avg_myntra_gmv": 30000,
+      "avg_ajio_gmv": 8015.21,
+      "avg_grocery_gmv": 44151.75,
+      "avg_confirmed_gmv": 500000
+    },
+    {
+      "user_id": "CK9969506",
+      "avg_amazon_gmv": 6206.53,
+      "avg_flipkart_gmv": 2071.52,
+      "avg_myntra_gmv": 2000,
+      "avg_ajio_gmv": 755.79,
+      "avg_grocery_gmv": 3612.7,
+      "avg_confirmed_gmv": 7976.06
+    },
+    {
+      "user_id": "USER6595203",
+      "avg_amazon_gmv": 4284.81,
+      "avg_flipkart_gmv": 543.91,
+      "avg_myntra_gmv": 224.83,
+      "avg_ajio_gmv": 1000,
+      "avg_grocery_gmv": 4350.96,
+      "avg_confirmed_gmv": 20000
+    },
+    {
+      "user_id": "USER7047042",
+      "avg_amazon_gmv": 4545.24,
+      "avg_flipkart_gmv": 3697.49,
+      "avg_myntra_gmv": 2000,
+      "avg_ajio_gmv": 72.92,
+      "avg_grocery_gmv": 5000,
+      "avg_confirmed_gmv": 6900.03
+    },
+    {
+      "user_id": "USER4766037",
+      "avg_amazon_gmv": 3121.32,
+      "avg_flipkart_gmv": 2335.23,
+      "avg_myntra_gmv": 112.12,
+      "avg_ajio_gmv": 482.86,
+      "avg_grocery_gmv": 2556.58,
+      "avg_confirmed_gmv": 14651.53
+    },
+    {
+      "user_id": "USER7731402",
+      "avg_amazon_gmv": 5954.81,
+      "avg_flipkart_gmv": 2553.4,
+      "avg_myntra_gmv": 111.53,
+      "avg_ajio_gmv": 1000,
+      "avg_grocery_gmv": 3038.83,
+      "avg_confirmed_gmv": 6848.63
+    },
+    {
+      "user_id": "CK1747531",
+      "avg_amazon_gmv": 4118.64,
+      "avg_flipkart_gmv": 4498.71,
+      "avg_myntra_gmv": 140.56,
+      "avg_ajio_gmv": 0,
+      "avg_grocery_gmv": 1877.51,
+      "avg_confirmed_gmv": 10670.16
+    },
+    {
+      "user_id": "USER9012911",
+      "avg_amazon_gmv": 1249.57,
+      "avg_flipkart_gmv": 5000,
+      "avg_myntra_gmv": 840.94,
+      "avg_ajio_gmv": 386.93,
+      "avg_grocery_gmv": 5000,
+      "avg_confirmed_gmv": 20000
+    },
+    {
+      "user_id": "CUST6820789",
+      "avg_amazon_gmv": 103369.03,
+      "avg_flipkart_gmv": 80876.06,
+      "avg_myntra_gmv": 18950.73,
+      "avg_ajio_gmv": 16974.28,
+      "avg_grocery_gmv": 20946.83,
+      "avg_confirmed_gmv": 313603.19
+    },
+    {
+      "user_id": "USER4675314",
+      "avg_amazon_gmv": 5521.95,
+      "avg_flipkart_gmv": 4307.12,
+      "avg_myntra_gmv": 321.66,
+      "avg_ajio_gmv": 164.26,
+      "avg_grocery_gmv": 890.81,
+      "avg_confirmed_gmv": 4216.87
+    },
+    {
+      "user_id": "CUST9700632",
+      "avg_amazon_gmv": 7784.47,
+      "avg_flipkart_gmv": 4428.51,
+      "avg_myntra_gmv": 432.41,
+      "avg_ajio_gmv": 347.75,
+      "avg_grocery_gmv": 5000,
+      "avg_confirmed_gmv": 18961.99
+    },
+    {
+      "user_id": "USER4731876",
+      "avg_amazon_gmv": 2688.45,
+      "avg_flipkart_gmv": 5000,
+      "avg_myntra_gmv": 0,
+      "avg_ajio_gmv": 82.02,
+      "avg_grocery_gmv": 1360.88,
+      "avg_confirmed_gmv": 12530.26
+    },
+    {
+      "user_id": "USER5467553",
+      "avg_amazon_gmv": 8943.18,
+      "avg_flipkart_gmv": 1182.4,
+      "avg_myntra_gmv": 922.18,
+      "avg_ajio_gmv": 1000,
+      "avg_grocery_gmv": 1380.12,
+      "avg_confirmed_gmv": 16873.08
+    },
+    {
+      "user_id": "CK7783851",
+      "avg_amazon_gmv": 4440.43,
+      "avg_flipkart_gmv": 5000,
+      "avg_myntra_gmv": 2000,
+      "avg_ajio_gmv": 1000,
+      "avg_grocery_gmv": 2773.55,
+      "avg_confirmed_gmv": 7798.81
+    },
+    {
+      "user_id": "CK6732994",
+      "avg_amazon_gmv": 4486.96,
+      "avg_flipkart_gmv": 3191.76,
+      "avg_myntra_gmv": 578.04,
+      "avg_ajio_gmv": 122.93,
+      "avg_grocery_gmv": 2109.64,
+      "avg_confirmed_gmv": 20000
+    },
+    {
+      "user_id": "USER2115432",
+      "avg_amazon_gmv": 88590.07,
+      "avg_flipkart_gmv": 50730.22,
+      "avg_myntra_gmv": 13980.87,
+      "avg_ajio_gmv": 15864.94,
+      "avg_grocery_gmv": 29705.96,
+      "avg_confirmed_gmv": 422904.79
+    },
+    {
+      "user_id": "USER6924974",
+      "avg_amazon_gmv": 21435.64,
+      "avg_flipkart_gmv": 13007.26,
+      "avg_myntra_gmv": 3174.7,
+      "avg_ajio_gmv": 0,
+      "avg_grocery_gmv": 11304.15,
+      "avg_confirmed_gmv": 37809.5
+    },
+    {
+      "user_id": "CUST4045639",
+      "avg_amazon_gmv": 6427.14,
+      "avg_flipkart_gmv": 5000,
+      "avg_myntra_gmv": 1315.66,
+      "avg_ajio_gmv": 1000,
+      "avg_grocery_gmv": 3679.2,
+      "avg_confirmed_gmv": 20000
+    },
+    {
+      "user_id": "USER3417162",
+      "avg_amazon_gmv": 4306.27,
+      "avg_flipkart_gmv": 4197.19,
+      "avg_myntra_gmv": 12.83,
+      "avg_ajio_gmv": 1000,
+      "avg_grocery_gmv": 1399.56,
+      "avg_confirmed_gmv": 13426.47
+    },
+    {
+      "user_id": "CK6665991",
+      "avg_amazon_gmv": 42557.7,
+      "avg_flipkart_gmv": 24921.69,
+      "avg_myntra_gmv": 4570.97,
+      "avg_ajio_gmv": 4242.84,
+      "avg_grocery_gmv": 15000,
+      "avg_confirmed_gmv": 61951.66
+    },
+    {
+      "user_id": "USER5168901",
+      "avg_amazon_gmv": 4872.37,
+      "avg_flipkart_gmv": 2136.85,
+      "avg_myntra_gmv": 79.83,
+      "avg_ajio_gmv": 1000,
+      "avg_grocery_gmv": 2304.97,
+      "avg_confirmed_gmv": 7864.16
+    },
+    {
+      "user_id": "CUST5805747",
+      "avg_amazon_gmv": 2698.07,
+      "avg_flipkart_gmv": 4900.1,
+      "avg_myntra_gmv": 2000,
+      "avg_ajio_gmv": 63.26,
+      "avg_grocery_gmv": 5000,
+      "avg_confirmed_gmv": 11720.12
+    },
+    {
+      "user_id": "USER8096969",
+      "avg_amazon_gmv": 4557.53,
+      "avg_flipkart_gmv": 1608.11,
+      "avg_myntra_gmv": 1934.44,
+      "avg_ajio_gmv": 0,
+      "avg_grocery_gmv": 1938.93,
+      "avg_confirmed_gmv": 20000
+    },
+    {
+      "user_id": "CK7147037",
+      "avg_amazon_gmv": 5570.22,
+      "avg_flipkart_gmv": 2986.57,
+      "avg_myntra_gmv": 2000,
+      "avg_ajio_gmv": 247.86,
+      "avg_grocery_gmv": 1875.8,
+      "avg_confirmed_gmv": 8868.81
+    },
+    {
+      "user_id": "CK7321662",
+      "avg_amazon_gmv": 15873.46,
+      "avg_flipkart_gmv": 18182.36,
+      "avg_myntra_gmv": 4444.73,
+      "avg_ajio_gmv": 1715.96,
+      "avg_grocery_gmv": 7259.37,
+      "avg_confirmed_gmv": 94563.47
+    },
+    {
+      "user_id": "USER1943246",
+      "avg_amazon_gmv": 20733.72,
+      "avg_flipkart_gmv": 13172.99,
+      "avg_myntra_gmv": 2388.71,
+      "avg_ajio_gmv": 4831.58,
+      "avg_grocery_gmv": 0,
+      "avg_confirmed_gmv": 100000
+    },
+    {
+      "user_id": "CUST6243564",
+      "avg_amazon_gmv": 23514.83,
+      "avg_flipkart_gmv": 18139.73,
+      "avg_myntra_gmv": 9977.94,
+      "avg_ajio_gmv": 3453.4,
+      "avg_grocery_gmv": 7411.84,
+      "avg_confirmed_gmv": 61439.99
+    },
+    {
+      "user_id": "CUST4083673",
+      "avg_amazon_gmv": 1758.45,
+      "avg_flipkart_gmv": 4041.45,
+      "avg_myntra_gmv": 761.97,
+      "avg_ajio_gmv": 819.2,
+      "avg_grocery_gmv": 801.17,
+      "avg_confirmed_gmv": 10663.06
+    },
+    {
+      "user_id": "CUST7917782",
+      "avg_amazon_gmv": 5983.45,
+      "avg_flipkart_gmv": 3593.85,
+      "avg_myntra_gmv": 2000,
+      "avg_ajio_gmv": 1000,
+      "avg_grocery_gmv": 2757.03,
+      "avg_confirmed_gmv": 20000
+    },
+    {
+      "user_id": "CK8256511",
+      "avg_amazon_gmv": 10000,
+      "avg_flipkart_gmv": 1849.64,
+      "avg_myntra_gmv": 2000,
+      "avg_ajio_gmv": 0,
+      "avg_grocery_gmv": 2341.09,
+      "avg_confirmed_gmv": 7697.37
+    }
+  ],
+  "top_n_cards": 10
+}

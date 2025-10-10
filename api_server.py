@@ -385,9 +385,9 @@ async def delete_job(
 if __name__ == "__main__":
     import uvicorn
     
-    print("🚀 Starting CardGenius Recommendations API Server")
-    print(f"📋 API Documentation: http://localhost:8000/docs")
-    print(f"🔑 API Key: {API_KEY}")
+    print("Starting CardGenius Recommendations API Server")
+    print(f"API Documentation: http://localhost:8000/docs")
+    print(f"API Key: {API_KEY}")
     print()
     
     uvicorn.run(app, host="0.0.0.0", port=8000)

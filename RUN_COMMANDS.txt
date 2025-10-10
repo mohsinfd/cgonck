@@ -1,0 +1,37 @@
+================================================================================
+COMMANDS TO RUN - 5K USER TEST
+================================================================================
+
+Step 1: Navigate to the correct folder
+---------------------------------------
+cd "c:\Users\mohsin\Downloads\Cursor 26 - CG on CK recommendations script"
+
+
+Step 2: Run the 5K test
+------------------------
+python run_5k_test.py
+
+
+That's it! The script will:
+- Read your 200K file
+- Take first 5,000 rows
+- Process them with 10 parallel workers
+- Call: https://bk-prod-external.bankkaro.com/cg/api/pro
+- Generate: results_5k_users.xlsx
+
+================================================================================
+WHAT TO EXPECT:
+================================================================================
+- Processing time: ~8-10 minutes for 5K users
+- Speed: ~10 users per second
+- Output file: results_5k_users.xlsx
+
+================================================================================
+IF YOU GET FILE NOT FOUND ERROR:
+================================================================================
+Make sure "Card Recommendation avg gmv dump.xlsx" is:
+1. Closed in Excel
+2. In the same folder as run_5k_test.py
+
+================================================================================
+

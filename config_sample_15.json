@@ -2,12 +2,12 @@
   "api": {
     "base_url": "https://bk-prod-external.bankkaro.com/cg/api/beta",
     "timeout": 30,
-    "sleep_between_requests": 1.2,
+    "sleep_between_requests": 0,
     "max_retries": 3
   },
   "excel": {
-    "input_file": "test_input.xlsx",
-    "output_file": "test_output.xlsx",
+    "input_file": "test_sample_15.xlsx",
+    "output_file": "results_sample_15.xlsx",
     "sheet_name": 0
   },
   "column_mappings": {
@@ -21,7 +21,7 @@
   },
   "processing": {
     "top_n_cards": 3,
-    "max_workers": 20,
+    "max_workers": 5,
     "extract_spend_keys": [
       "amazon_spends",
       "flipkart_spends",

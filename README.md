@@ -14,14 +14,14 @@ A Streamlit-based web application for generating credit card recommendations usi
 ## Quick Start
 
 1. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+pip install -r requirements.txt
+```
 
 2. **Run the Dashboard**:
-   ```bash
-   streamlit run cardgenius_dashboard.py
-   ```
+```bash
+streamlit run cardgenius_dashboard.py
+```
 
 3. **Access the App**:
    - Open your browser to `http://localhost:8501`
