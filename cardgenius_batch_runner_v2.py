@@ -1,9 +1,16 @@
 #!/usr/bin/env python3
 """
-CardGenius Batch Recommendation Runner
+CardGenius Batch Recommendation Runner V2
+
+V2 SIMPLIFIED OUTPUT - Only essential columns for frontend display:
+- Card name (mapped to CashKaro display names)
+- Total savings yearly
+- Net savings
+- Joining fees
+- Amazon/Flipkart/Grocery/Other breakdowns (rupees only)
 
 Processes Excel files with user spending data and generates card recommendations
-using the CardGenius API with rate limiting and error handling.
+using the CardGenius API with commission filtering and name mapping.
 """
 
 import pandas as pd
@@ -363,32 +370,15 @@ class CardGeniusBatchRunner:
         original_card_name = card.get('card_name', '')
         display_card_name = self._get_display_name(original_card_name)
         
+        # V2 SIMPLIFIED: Only essential columns for frontend
         result = {
             f"{prefix}card_name": display_card_name,
-            f"{prefix}card_type": card_type,
-            f"{prefix}is_cashback_card": is_cashback_card,
-            f"{prefix}redemption_required": redemption_required,
-            f"{prefix}effective_conversion_rate": effective_conversion_rate,
-            f"{prefix}joining_fees": joining_fees,
             f"{prefix}total_savings_yearly": total_savings,
-            f"{prefix}total_extra_benefits": extra_benefits,
-            f"{prefix}total_extra_benefits_explanation": extra_benefits_explanation,
             f"{prefix}net_savings": net_savings,
+            f"{prefix}joining_fees": joining_fees,
         }
         
-        # Add redemption fields to result
-        if recommended_option:
-            result[f"{prefix}recommended_redemption_method"] = recommended_option['method']
-            result[f"{prefix}recommended_redemption_conversion_rate"] = recommended_option['conversion_rate']
-            result[f"{prefix}recommended_redemption_note"] = recommended_option['note']
-        else:
-            # Fallback to empty values
-            result[f"{prefix}recommended_redemption_method"] = ""
-            result[f"{prefix}recommended_redemption_conversion_rate"] = 0
-            result[f"{prefix}recommended_redemption_note"] = ""
-        
-        # Extract spend breakdown data
-        spend_keys = self.config['processing']['extract_spend_keys']
+        # Extract spend breakdown data - RUPEES ONLY for V2
         spending_breakdown = card.get('spending_breakdown', {})
         
         # Handle both dict and array formats for spending_breakdown
@@ -400,27 +390,24 @@ class CardGeniusBatchRunner:
                     breakdown_dict[item['on']] = item
             spending_breakdown = breakdown_dict
         
-        for spend_key in spend_keys:
+        # Map spend keys to simplified breakdown column names
+        spend_key_mapping = {
+            'amazon_spends': 'amazon_breakdown',
+            'flipkart_spends': 'flipkart_breakdown',
+            'grocery_spends_online': 'grocery_breakdown',
+            'other_online_spends': 'other_online_breakdown'
+        }
+        
+        for spend_key, column_name in spend_key_mapping.items():
             spend_data = spending_breakdown.get(spend_key, {})
             
             if isinstance(spend_data, dict):
-                # Extract both points and rupee values
-                points_earned = spend_data.get('points_earned', 0)
+                # Extract ONLY rupees value for V2
                 savings_rupees = spend_data.get('savings', 0)
-                
-                # Output both values for clarity
-                result[f"{prefix}{spend_key}_points"] = points_earned
-                result[f"{prefix}{spend_key}_rupees"] = savings_rupees
-                
-                # Handle explanation as list or string
-                explanation = spend_data.get('explanation', '')
-                if isinstance(explanation, list) and explanation:
-                    explanation = explanation[0]  # Take first explanation
-                result[f"{prefix}{spend_key}_explanation"] = explanation
+                result[f"{prefix}{column_name}"] = savings_rupees
             else:
-                result[f"{prefix}{spend_key}_points"] = 0
-                result[f"{prefix}{spend_key}_rupees"] = 0
-                result[f"{prefix}{spend_key}_explanation"] = ''
+                # Handle missing or invalid spend data
+                result[f"{prefix}{column_name}"] = 0
         
         return result
     
@@ -568,28 +555,19 @@ class CardGeniusBatchRunner:
         
         # Initialize result columns
         result_columns = {}
+        # V2 SIMPLIFIED: Only 8 columns per card
         for i in range(1, processing_config['top_n_cards'] + 1):
             prefix = f"top{i}_"
             result_columns.update({
                 f"{prefix}card_name": "",
-                f"{prefix}card_type": "",
-                f"{prefix}is_cashback_card": False,
-                f"{prefix}redemption_required": True,
-                f"{prefix}effective_conversion_rate": 0.0,
-                f"{prefix}joining_fees": 0,
                 f"{prefix}total_savings_yearly": 0,
-                f"{prefix}total_extra_benefits": 0,
-                f"{prefix}total_extra_benefits_explanation": "",
                 f"{prefix}net_savings": 0,
-                f"{prefix}recommended_redemption_method": "",
-                f"{prefix}recommended_redemption_conversion_rate": 0,
-                f"{prefix}recommended_redemption_note": "",
+                f"{prefix}joining_fees": 0,
+                f"{prefix}amazon_breakdown": 0,
+                f"{prefix}flipkart_breakdown": 0,
+                f"{prefix}grocery_breakdown": 0,
+                f"{prefix}other_online_breakdown": 0,
             })
-            
-            for spend_key in processing_config['extract_spend_keys']:
-                result_columns[f"{prefix}{spend_key}_points"] = 0
-                result_columns[f"{prefix}{spend_key}_rupees"] = 0
-                result_columns[f"{prefix}{spend_key}_explanation"] = ""
         
         result_columns["cardgenius_error"] = ""
         

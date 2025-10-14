@@ -1,0 +1,38 @@
+{
+  "_note": "V2 Configuration - Simplified output with commission filtering and name mapping",
+  "_changes_from_v1": "Output now only includes 8 essential columns per card instead of 25+",
+  
+  "api": {
+    "base_url": "https://bk-prod-external.bankkaro.com/cg/api/beta",
+    "timeout": 30,
+    "sleep_between_requests": 1.2,
+    "max_retries": 3
+  },
+  "excel": {
+    "input_file": "test_input.xlsx",
+    "output_file": "test_output_v2.xlsx",
+    "sheet_name": 0
+  },
+  "column_mappings": {
+    "user_id": "userid",
+    "amazon_spends": "avg_amazon_gmv",
+    "flipkart_spends": "avg_flipkart_gmv",
+    "myntra": "avg_myntra_gmv",
+    "ajio": "avg_ajio_gmv",
+    "avg_gmv": "avg_confirmed_gmv",
+    "grocery": "avg_grocery_gmv"
+  },
+  "processing": {
+    "top_n_cards": 10,
+    "max_workers": 20,
+    "extract_spend_keys": [
+      "amazon_spends",
+      "flipkart_spends",
+      "grocery_spends_online",
+      "other_online_spends"
+    ],
+    "skip_empty_rows": true,
+    "continue_on_error": true,
+    "other_online_mode": "sum_components"
+  }
+}
