@@ -35,7 +35,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-class CardGeniusBatchRunner:
+class CardGeniusBatchRunnerV2:
     """Main class for processing CardGenius batch recommendations"""
     
     def __init__(self, config_path: str):
@@ -376,6 +376,7 @@ class CardGeniusBatchRunner:
             f"{prefix}total_savings_yearly": total_savings,
             f"{prefix}net_savings": net_savings,
             f"{prefix}joining_fees": joining_fees,
+            f"{prefix}milestone_benefits_amount": extra_benefits,  # PRD requirement
         }
         
         # Extract spend breakdown data - RUPEES ONLY for V2
@@ -555,7 +556,7 @@ class CardGeniusBatchRunner:
         
         # Initialize result columns
         result_columns = {}
-        # V2 SIMPLIFIED: Only 8 columns per card
+        # V2 SIMPLIFIED: 8 columns per card + milestone_benefits_amount
         for i in range(1, processing_config['top_n_cards'] + 1):
             prefix = f"top{i}_"
             result_columns.update({
@@ -563,6 +564,7 @@ class CardGeniusBatchRunner:
                 f"{prefix}total_savings_yearly": 0,
                 f"{prefix}net_savings": 0,
                 f"{prefix}joining_fees": 0,
+                f"{prefix}milestone_benefits_amount": 0.00,  # PRD requirement
                 f"{prefix}amazon_breakdown": 0,
                 f"{prefix}flipkart_breakdown": 0,
                 f"{prefix}grocery_breakdown": 0,
@@ -659,9 +661,9 @@ def main():
         logging.getLogger().setLevel(logging.DEBUG)
     
     try:
-        runner = CardGeniusBatchRunner(args.config)
+        runner = CardGeniusBatchRunnerV2(args.config)
         output_file = runner.process_excel()
-        print(f"\n✅ Processing complete! Results saved to: {output_file}")
+        print(f"\nProcessing complete! Results saved to: {output_file}")
         
     except Exception as e:
         logger.error(f"Fatal error: {e}")
