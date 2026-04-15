@@ -4,8 +4,10 @@ FastAPI Server for CardGenius Recommendations
 Provides API endpoints for batch card recommendations
 """
 
+import os
 from fastapi import FastAPI, HTTPException, Header, BackgroundTasks
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Dict, Optional, Any
 import uuid
@@ -14,6 +16,7 @@ import os
 from datetime import datetime
 import pandas as pd
 from cardgenius_batch_runner import CardGeniusBatchRunner
+from cardgenius_batch_runner_v2 import CardGeniusBatchRunnerV2
 import tempfile
 import logging
 
@@ -24,14 +27,24 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# CORS middleware for production
 app = FastAPI(
     title="CardGenius Recommendations API",
-    description="Batch credit card recommendations API",
-    version="1.0.0"
+    description="Batch credit card recommendations API supporting both V1 (full output) and V2 (simplified output) formats",
+    version="2.0.0"
 )
 
-# API Key (hardcoded as requested)
-API_KEY = "cgapi_2025_secure_key_12345"  # Change this to your actual key
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Configure this properly for production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# API Key from environment variable (production) or fallback
+API_KEY = os.getenv("CARDGENIUS_API_KEY", "cgapi_2025_secure_key_12345")
 
 # Job storage (in-memory for now, can be moved to Redis/DB later)
 jobs = {}
@@ -51,12 +64,14 @@ class BatchRecommendationRequest(BaseModel):
     """Batch recommendation request model"""
     users: List[UserSpendingData]
     top_n_cards: Optional[int] = 10
+    version: Optional[str] = "v1"  # "v1" or "v2"
 
 class JobResponse(BaseModel):
     """Job creation response"""
     job_id: str
     status: str
     total_users: int
+    version: str
     message: str
 
 class StatusResponse(BaseModel):
@@ -68,6 +83,7 @@ class StatusResponse(BaseModel):
     successful: int
     failed: int
     progress_percentage: float
+    version: str
 
 def verify_api_key(x_api_key: str = Header(...)):
     """Verify API key"""
@@ -75,15 +91,16 @@ def verify_api_key(x_api_key: str = Header(...)):
         raise HTTPException(status_code=401, detail="Invalid API key")
     return x_api_key
 
-def process_batch(job_id: str, users: List[UserSpendingData], top_n_cards: int):
+def process_batch(job_id: str, users: List[UserSpendingData], top_n_cards: int, version: str = "v1"):
     """Process batch of users in background"""
     try:
-        logger.info(f"Starting job {job_id} with {len(users)} users")
+        logger.info(f"Starting job {job_id} with {len(users)} users using {version}")
         
         # Update job status
         jobs[job_id]['status'] = 'processing'
         jobs[job_id]['started_at'] = datetime.now().isoformat()
         jobs[job_id]['processed_users'] = 0
+        jobs[job_id]['version'] = version
         
         # Convert users to DataFrame
         user_data = []
@@ -147,8 +164,11 @@ def process_batch(job_id: str, users: List[UserSpendingData], top_n_cards: int):
         with open(temp_config, 'w') as f:
             json.dump(config, f, indent=2)
         
-        # Process using existing batch runner
-        runner = CardGeniusBatchRunner(temp_config)
+        # Process using appropriate batch runner based on version
+        if version == "v2":
+            runner = CardGeniusBatchRunnerV2(temp_config)
+        else:
+            runner = CardGeniusBatchRunner(temp_config)
         output_file = runner.process_excel()
         
         # Read results
@@ -210,14 +230,26 @@ async def root():
     """API root endpoint"""
     return {
         "service": "CardGenius Recommendations API",
-        "version": "1.0.0",
-        "status": "running"
+        "version": "2.0.0",
+        "status": "running",
+        "supported_versions": ["v1", "v2"],
+        "description": "Supports both V1 (full output) and V2 (simplified output) recommendation formats"
     }
 
-@app.get("/health")
-async def health_check():
-    """Health check endpoint"""
-    return {"status": "healthy"}
+@app.get("/api/v1/versions")
+async def get_version_info():
+    """Get information about supported API versions"""
+    return {
+        "supported_versions": ["v1", "v2"],
+        "v1": {
+            "description": "Full output format with all CardGenius data",
+            "output_columns": "Complete set of columns including rewards, cashback, and detailed breakdowns"
+        },
+        "v2": {
+            "description": "Simplified output format for frontend",
+            "output_columns": "8 columns per card: card_name, total_savings_yearly, net_savings, joining_fees, amazon_breakdown, flipkart_breakdown, grocery_breakdown, other_online_breakdown"
+        }
+    }
 
 @app.post("/api/v1/recommendations", response_model=JobResponse)
 async def create_recommendation_job(
@@ -246,6 +278,10 @@ async def create_recommendation_job(
     if len(request.users) > 200:
         raise HTTPException(status_code=400, detail="Maximum 200 users per batch")
     
+    # Validate version
+    if request.version not in ["v1", "v2"]:
+        raise HTTPException(status_code=400, detail="Version must be 'v1' or 'v2'")
+    
     # Create job
     job_id = str(uuid.uuid4())
     
@@ -256,6 +292,7 @@ async def create_recommendation_job(
         'processed_users': 0,
         'successful': 0,
         'failed': 0,
+        'version': request.version,
         'created_at': datetime.now().isoformat(),
         'started_at': None,
         'completed_at': None
@@ -266,7 +303,8 @@ async def create_recommendation_job(
         process_batch,
         job_id,
         request.users,
-        request.top_n_cards
+        request.top_n_cards,
+        request.version
     )
     
     logger.info(f"Created job {job_id} with {len(request.users)} users")
@@ -275,7 +313,8 @@ async def create_recommendation_job(
         job_id=job_id,
         status="queued",
         total_users=len(request.users),
-        message="Job created successfully. Use /api/v1/status/{job_id} to check progress"
+        version=request.version,
+        message=f"Job created successfully using {request.version}. Use /api/v1/status/{job_id} to check progress"
     )
 
 @app.get("/api/v1/status/{job_id}", response_model=StatusResponse)
@@ -310,7 +349,8 @@ async def get_job_status(
         processed_users=job.get('processed_users', 0),
         successful=job.get('successful', 0),
         failed=job.get('failed', 0),
-        progress_percentage=(job.get('processed_users', 0) / job['total_users'] * 100) if job['total_users'] > 0 else 0
+        progress_percentage=(job.get('processed_users', 0) / job['total_users'] * 100) if job['total_users'] > 0 else 0,
+        version=job.get('version', 'v1')
     )
 
 @app.get("/api/v1/results/{job_id}")
@@ -352,6 +392,7 @@ async def get_job_results(
     return {
         "job_id": job_id,
         "status": "completed",
+        "version": job.get('version', 'v1'),
         "total_users": job['total_users'],
         "successful": job['successful'],
         "failed": job['failed'],
@@ -385,10 +426,15 @@ async def delete_job(
 if __name__ == "__main__":
     import uvicorn
     
-    print("Starting CardGenius Recommendations API Server")
-    print(f"API Documentation: http://localhost:8000/docs")
+    # Get port from environment (for production) or default to 8000
+    port = int(os.getenv("PORT", 8000))
+    
+    print("Starting CardGenius Recommendations API Server v2.0")
+    print(f"API Documentation: http://localhost:{port}/docs")
     print(f"API Key: {API_KEY}")
+    print("Supported Versions: V1 (full output) and V2 (simplified output)")
+    print(f"Environment: {'Production' if os.getenv('PORT') else 'Development'}")
     print()
     
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=port)
 

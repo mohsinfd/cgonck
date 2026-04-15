@@ -1,0 +1,35 @@
+card_id,report_store_name,store_link,bank,property,ltf_tag,default
+HDFC_MILLENNIA,HDFC Millennia Credit Card,https://cashkaro.com/stores/hdfc-millennia-credit-card,HDFC,Shopping,Y,1
+AXIS_FLIPKART,Axis Flipkart Credit Card,https://cashkaro.com/stores/bank-karo-axis-flipkart,Axis,Shopping,,1
+SBI_CASHBACK,SBI Cashback Credit Card,https://cashkaro.com/stores/sbi-cashback-card,SBI,Shopping,,1
+HDFC_SWIGGY,HDFC Swiggy Credit Card,https://cashkaro.com/stores/swiggy-hdfc-bank-credit-card-offers,HDFC,Dining,,1
+AXIS_MYZONE,Axis MyZone Credit Card,https://cashkaro.com/stores/bank-karo-axis-my-zone,Axis,Shopping,,
+IDFC_FIRST,IDFC First Credit Card,https://cashkaro.com/stores/idfc-first-credit-card,IDFC,Shopping,Y,1
+HDFC_DINERS,HDFC Bank Diners Club Credit Card,https://cashkaro.com/stores/hdfc-bank-diners-credit-card,HDFC,Shopping,,
+AXIS_CASHBACK,Axis Cashback Credit Card,TBA,Axis,Shopping,,
+SBI_SIMPLY_CLICK,SBI Simply Click Credit Card,https://cashkaro.com/stores/simply-click-sbi-card,SBI,Shopping,,
+HDFC_REGALIA_GOLD,HDFC Bank Regalia Gold Credit Card,https://cashkaro.com/stores/regalia-hdfc-bank-credit-card-offers,HDFC,Shopping,,
+AXIS_AIRTEL,Axis Airtel Credit Card,https://cashkaro.com/stores/axis-airtel-credit-card,Axis,Utility,,1
+AXIS_INDIAN_OIL,Axis Indian Oil Rupay Credit Card,https://cashkaro.com/stores/axis-bank-indian-oil-rupay-credit-card,Axis,Fuel,,
+IDFC_POWER_PLUS,IDFC First Power Plus Credit Card,https://cashkaro.com/stores/idfc-first-power-plus-credit-card,IDFC,Fuel,,
+HDFC_RUPAY,HDFC RuPay Credit Card,https://cashkaro.com/stores/hdfc-bank-rupay-credit-card-offers,HDFC,UPI,,
+TATA_NEU,Tata Neu HDFC Bank Credit Card,https://cashkaro.com/stores/tata-neu-credit-card-offers,Tata,Shopping,,
+INDUSIND_TIGER,Indusind Tiger Credit Card,https://cashkaro.com/stores/indusind-tiger-credit,Indus,Travel,Y,
+HSBC_LIVE_PLUS,HSBC Live Plus Credit Card,https://cashkaro.com/stores/hsbc-live-plus-credit-card,HSBC,Groceries,,
+FEDERAL_SCAPIA,Federal Bank Scapia Credit Card,https://cashkaro.com/stores/federal-bank-scapia-credit-card-offer,Scapia,Travel,Y,
+HSBC_PLATINUM,HSBC Platinum Credit Card,https://cashkaro.com/stores/hsbc-platinum-credit-card,HSBC,Shopping,Y,1
+RBL_SHOPRITE,RBL Bank Shoprite Credit Card,https://cashkaro.com/stores/rbl-bank-shoprite-credit,RBL,Groceries,Y,1
+RBL_INDIAN_OIL,Indian Oil RBL Bank XTRA Credit Card,https://cashkaro.com/stores/indianoil-rbl-bank-xtra-credit-card,RBL,Fuel,,
+HSBC_TRAVEL_ONE,HSBC Travel One Credit Card,https://cashkaro.com/stores/hsbc-travelone-credit-card,HSBC,Travel,,
+SBI_BPCL,SBI BPCL Credit Card,https://cashkaro.com/stores/sbi-bpcl-credit-card,SBI,Fuel,,
+SBI_IRCTC,SBI IRCTC Rupay Credit Card,https://cashkaro.com/stores/sbi-irctc-credit-card,SBI,Travel,,
+SBI_SIMPLY_SAVE,SBI Simply Save Credit Card,https://cashkaro.com/stores/simply-save-sbi-card,SBI,Shopping,,
+RIO_RUPAY,Rio Rupay Credit Card,https://cashkaro.com/stores/rio-rupay-credit-card,Rio,UPI,Y,
+INDIGO_IDFC,IndiGo IDFC FIRST Dual Credit Cards,https://cashkaro.com/stores/indigo-idfc-first-credit-card,IDFC,Travel,,
+RBL_BMS,RBL Bank BookMyShow Play Credit Card,https://cashkaro.com/stores/rbl-bank-booksyshow-play-credit,RBL,Movies,,
+HDFC_INDIAN_OIL,HDFC Bank Indian Oil Credit Card,https://cashkaro.com/stores/hdfc-bank-indian-oil-credit-card,HDFC,Fuel,,
+AXIS_PRIVILEGE,Axis Privilege Visa Credit Card,https://cashkaro.com/stores/axis-privilege-visa-credit-card,Axis,Shopping,Y,
+KIWI_UPI,UPI Credit Card on KIWI,https://cashkaro.com/stores/kiwi-credit-card-offers,Kiwi,UPI,Y,1
+YES_POPCLUB,Yes Bank Pop-Club Credit Card,https://cashkaro.com/stores/yes-bank-popclub-credit-card,Pop,UPI,Y,1
+
+

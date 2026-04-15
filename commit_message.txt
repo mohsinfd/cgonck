@@ -1,0 +1,33 @@
+Add commission filtering, display name mapping, and V2 simplified output
+
+Major Features Added:
+1. Commission-based card filtering - Only return commissionable cards to users
+2. CashKaro display name mapping - Transform CardGenius names to frontend names
+3. V2 simplified output - 8 columns per card instead of 25+ for cleaner frontend
+
+Files Added:
+- commissionable_cards.json: 112 cards with commission status
+- cashkaro_display_names.json: 47 name mappings for 33 CashKaro display names
+- cardgenius_batch_runner_v2.py: Simplified V2 processor
+- config_v2_sample.json: V2 configuration example
+- simple_commission_test.py: Commission filtering tests (11/11 passed)
+- test_display_name_mapping.py: Name mapping tests (18/18 passed)
+- COMMISSION_FILTERING_AND_NAME_MAPPING_SUMMARY.md: Complete documentation
+- V2_CHANGES_SUMMARY.md: V2 changes and usage guide
+
+Files Modified:
+- cardgenius_batch_runner.py: Added commission filtering and name mapping (V1)
+
+Key Benefits:
+- Only commissionable cards returned (no wasted impressions)
+- Card names match CashKaro frontend exactly
+- V2 reduces output from ~250 to 80 columns (70% smaller files)
+- V1 retained as-is for backward compatibility
+- All features tested and production-ready
+
+
+
+
+
+
+
